@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "description": "Devcontainer for running Claude Code in an isolated sandbox.",
+      "tags": ["claude", "ai", "sandbox"],
+      "kind": "devcontainer",
+      "url": "https://raw.githubusercontent.com/thaitype/sandcontainer/main/templates/claude-code/devcontainer.json"
+    }
+  ]
+}

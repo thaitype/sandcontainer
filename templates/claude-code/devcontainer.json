@@ -1,0 +1,14 @@
+{
+  "name": "Claude Code Sandbox",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "remoteUser": "node",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "containerEnv": {
+    "CLAUDE_CODE_OAUTH_TOKEN": "${localEnv:CLAUDE_CODE_OAUTH_TOKEN}"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.claude,target=/home/node/.claude,type=bind",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
+  ],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+}
