@@ -161,6 +161,55 @@ After running `scx init`, your project will look like:
 
 Multiple templates coexist side by side. The downloaded `devcontainer.json` is the single source of truth — edit it directly if you need to customize.
 
+## Template Images
+
+Each template that ships a `Dockerfile` is built and published to the GitHub Container Registry automatically.
+
+**Published image name:** `ghcr.io/thaitype/sandcontainer-<id>:latest`
+
+For example, the `claude-code` template publishes to:
+
+```
+ghcr.io/thaitype/sandcontainer-claude-code:latest
+```
+
+### How publishing works
+
+A GitHub Actions workflow (`.github/workflows/publish-templates.yml`) triggers on every push to `main` that touches files under `templates/**`, plus on manual `workflow_dispatch`. It discovers which templates contain a `Dockerfile`, then builds and pushes a multi-arch image (`linux/amd64`, `linux/arm64`) for each one. Only the `:latest` tag is published.
+
+### One-time visibility flip (required after first publish)
+
+GHCR creates new packages as **private** by default. After the workflow runs for the first time for a template, a maintainer must make the package public manually:
+
+```
+GitHub → your profile → Packages → sandcontainer-<id>
+  → Package settings → Change visibility → Public
+```
+
+This is a one-time step per template. Once public, the image can be pulled anonymously — end users do not need a GHCR account or `docker login`.
+
+### devcontainer.json rule for templates
+
+Templates that have a `Dockerfile` must reference the already-published image via `"image":` in their `devcontainer.json`. Using `"build":` or `"dockerFile":` is not allowed in a template, because the template travels to the end user as a plain JSON file — the user never sees the Dockerfile.
+
+Correct:
+
+```json
+{
+  "name": "claude-code",
+  "image": "ghcr.io/thaitype/sandcontainer-claude-code:latest",
+  "remoteUser": "node"
+}
+```
+
+Not allowed in a template:
+
+```json
+{
+  "build": { "dockerfile": "Dockerfile" }
+}
+```
+
 ## License
 
 MIT
