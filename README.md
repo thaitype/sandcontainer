@@ -156,6 +156,18 @@ Both templates produce an identical in-container experience: the same `name`, `r
 - **`claude-code`** (features-based): starts from `mcr.microsoft.com/devcontainers/javascript-node:22` and installs Claude Code via `devcontainer-features`. No pre-built image. First build downloads and installs features (~2.3GB). Standard base image — good if you want to layer in additional features.
 - **`claude-code-slim`** (Dockerfile-based): starts from a pre-built GHCR image (`ghcr.io/thaitype/sandcontainer-claude-code-slim:latest`) based on `node:22-slim` (~800MB). Faster first pull; no features step.
 
+### Pre-building the features-based template (optional)
+
+`scx` does not expose a `build` subcommand today. The features-based `claude-code` template installs features during the first `scx up`, which can take several minutes. If you want to pre-build the image separately (for CI, or to warm the Docker cache before working offline), invoke `@devcontainers/cli` directly:
+
+```bash
+npx @devcontainers/cli build \
+  --workspace-folder . \
+  --config .devcontainer/claude-code/devcontainer.json
+```
+
+This builds the image — including feature installation — without starting a container. Subsequent `scx up claude-code` will reuse the cached layers and start quickly. The slim template does not need this step; it pulls a pre-built image from GHCR.
+
 ## Project Layout
 
 After running `scx init`, your project will look like:
