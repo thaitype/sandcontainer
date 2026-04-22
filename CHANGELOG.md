@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.2.0](https://github.com/thaitype/agent-devcontainers/compare/v0.1.0...v0.2.0) (2026-04-22)
+
+### ⚠ BREAKING CHANGES
+
+* The on-disk layout changed from `.devcontainers/<id>/`
+(plural) to `.devcontainer/<id>/` (singular). Users with templates
+initialized under v0.1.x must re-run `sandcontainer init <id>` and delete
+the orphan `.devcontainers/` directory manually. The container's mounted
+workspace also changed from the template directory to the user's
+repository root — `claude` and other tools now see the user's project
+code at `/workspaces/<repo-name>` inside the container.
+
+### Bug Fixes
+
+* move repo devcontainer config into .devcontainer/claude-code/ ([83239ad](https://github.com/thaitype/agent-devcontainers/commit/83239ad6b663d7ef67b752e0748bbd54efc86565))
+* remove requireBranch setting from release-it configuration ([da3c42c](https://github.com/thaitype/agent-devcontainers/commit/da3c42c66c848b6bc7af7ba0bbcd3489c5e43d68))
+* use `.devcontainer/<id>/` layout and mount repo root as workspace ([bb806ff](https://github.com/thaitype/agent-devcontainers/commit/bb806ff23bb95affc3abb79d1ee97a6a3e3f67ff)), closes [#3](https://github.com/thaitype/agent-devcontainers/issues/3)
+
+### Documentation
+
+* add release notes for v0.1.0 ([14ab2e6](https://github.com/thaitype/agent-devcontainers/commit/14ab2e689f989663c844f325674a3103b8a70a16))
+* update AGENTS.md with agent behavior principles and clarify milestone rules ([35316aa](https://github.com/thaitype/agent-devcontainers/commit/35316aa5fd223d5b2665ee92f06c8829775177b6))
+
 ## 0.1.0 (2026-04-22)
 
 ### Features
