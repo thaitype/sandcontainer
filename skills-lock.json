@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "install-chief": {
+      "source": "thaitype/chief-agent-framework",
+      "ref": "main.hardening-chief-rule",
+      "sourceType": "github",
+      "computedHash": "a0e51e4c2908869af74a7ad13de734ed618f882472d9b78208656171fd6ebd30"
+    }
+  }
+}
