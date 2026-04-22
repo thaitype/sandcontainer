@@ -1,5 +1,5 @@
 {
-  "name": "@thaitype/minimal-typescript-node-esm-starter",
+  "name": "sandcontainer",
   "version": "0.0.0",
   "description": "minimal-typescript-node-esm-starter",
   "main": "./dist/main.cjs",
