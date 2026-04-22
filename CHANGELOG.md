@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.0] (2026-04-22)
+
+### ⚠ BREAKING CHANGES
+
+* The `claude-code` template now uses `devcontainer-features` with the Microsoft
+  `javascript-node:22` base image instead of the slim pre-built GHCR image.
+  Users with an existing `.devcontainer/claude-code/devcontainer.json` from v0.2.x
+  must re-run `scx init claude-code --force` after upgrading to get the new
+  features-based config.
+* The GHCR image `ghcr.io/thaitype/sandcontainer-claude-code:latest` is no longer
+  rebuilt by CI. Use `scx init claude-code-slim` to use the Dockerfile-based template
+  that pulls `ghcr.io/thaitype/sandcontainer-claude-code-slim:latest` (~800MB).
+
+### Features
+
+* split `claude-code` into two templates: features-based `claude-code` (~2.3GB, no pre-built image) and Dockerfile-based `claude-code-slim` (~800MB, pre-built GHCR image)
+* add `claude-code-slim` template with pre-built image `ghcr.io/thaitype/sandcontainer-claude-code-slim:latest`
+
 ## [0.2.0](https://github.com/thaitype/agent-devcontainers/compare/v0.1.0...v0.2.0) (2026-04-22)
 
 ### ⚠ BREAKING CHANGES

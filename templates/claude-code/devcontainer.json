@@ -1,10 +1,14 @@
 {
   "name": "Claude Code Sandbox",
-  "image": "ghcr.io/thaitype/sandcontainer-claude-code:latest",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   "remoteUser": "node",
   "initializeCommand": "mkdir -p ${localEnv:HOME}/.claude && touch ${localEnv:HOME}/.claude.json",
   "containerEnv": {
     "CLAUDE_CODE_OAUTH_TOKEN": "${localEnv:CLAUDE_CODE_OAUTH_TOKEN}"
+  },
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "mounts": [
     "source=${localEnv:HOME}/.claude,target=/home/node/.claude,type=bind",

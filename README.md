@@ -146,7 +146,15 @@ $ scx exec --help
 
 | ID | Description |
 |----|-------------|
-| `claude-code` | Devcontainer for running Claude Code in an isolated sandbox |
+| `claude-code` | Devcontainer for Claude Code using the standard Microsoft JavaScript/Node base image and devcontainer-features. Larger first build (~2.3GB); no pre-built image on GHCR. |
+| `claude-code-slim` | Devcontainer for Claude Code with a hand-picked node:22-slim base and pre-built GHCR image (~800MB). Faster first run; no devcontainer-features. |
+
+### Choosing a template
+
+Both templates produce an identical in-container experience: the same `name`, `remoteUser`, `initializeCommand`, environment variables, bind mounts (including `~/.claude` and `~/.claude.json`), and `workspaceFolder`. The only difference is the build path:
+
+- **`claude-code`** (features-based): starts from `mcr.microsoft.com/devcontainers/javascript-node:22` and installs Claude Code via `devcontainer-features`. No pre-built image. First build downloads and installs features (~2.3GB). Standard base image — good if you want to layer in additional features.
+- **`claude-code-slim`** (Dockerfile-based): starts from a pre-built GHCR image (`ghcr.io/thaitype/sandcontainer-claude-code-slim:latest`) based on `node:22-slim` (~800MB). Faster first pull; no features step.
 
 ## Project Layout
 
@@ -163,14 +171,14 @@ Multiple templates coexist side by side. The downloaded `devcontainer.json` is t
 
 ## Template Images
 
-Each template that ships a `Dockerfile` is built and published to the GitHub Container Registry automatically.
+Templates that ship a `Dockerfile` are built and published to the GitHub Container Registry automatically. The features-based `claude-code` template has no `Dockerfile` and therefore has no pre-built image — devcontainers handles installation via `devcontainer-features` at first build time.
 
 **Published image name:** `ghcr.io/thaitype/sandcontainer-<id>:latest`
 
-For example, the `claude-code` template publishes to:
+For example, the `claude-code-slim` template publishes to:
 
 ```
-ghcr.io/thaitype/sandcontainer-claude-code:latest
+ghcr.io/thaitype/sandcontainer-claude-code-slim:latest
 ```
 
 ### How publishing works
@@ -192,12 +200,12 @@ This is a one-time step per template. Once public, the image can be pulled anony
 
 Templates that have a `Dockerfile` must reference the already-published image via `"image":` in their `devcontainer.json`. Using `"build":` or `"dockerFile":` is not allowed in a template, because the template travels to the end user as a plain JSON file — the user never sees the Dockerfile.
 
-Correct:
+Correct (example using the slim template):
 
 ```json
 {
-  "name": "claude-code",
-  "image": "ghcr.io/thaitype/sandcontainer-claude-code:latest",
+  "name": "claude-code-slim",
+  "image": "ghcr.io/thaitype/sandcontainer-claude-code-slim:latest",
   "remoteUser": "node"
 }
 ```
