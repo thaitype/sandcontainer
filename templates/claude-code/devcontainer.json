@@ -1,8 +1,7 @@
 {
   "name": "Claude Code Sandbox",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "image": "ghcr.io/thaitype/sandcontainer-claude-code:latest",
   "remoteUser": "node",
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
   "containerEnv": {
     "CLAUDE_CODE_OAUTH_TOKEN": "${localEnv:CLAUDE_CODE_OAUTH_TOKEN}"
   },
