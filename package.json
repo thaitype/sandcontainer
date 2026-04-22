@@ -13,6 +13,12 @@
     }
   },
   "scripts": {
+    "sandbox:up": "npx @devcontainers/cli up --workspace-folder .",
+    "sandbox:claude": "npx @devcontainers/cli exec --workspace-folder . claude",
+    "sandbox:yolo": "npx @devcontainers/cli exec --workspace-folder . claude --dangerously-skip-permissions",
+    "sandbox:shell": "npx @devcontainers/cli exec --workspace-folder . bash",
+    "sandbox:rebuild": "npx @devcontainers/cli up --workspace-folder . --remove-existing-container",
+    "sandbox:down": "docker ps -q --filter label=devcontainer.local_folder=$PWD | xargs -r docker stop",
     "start": "tsx src/main.ts",
     "dev": "tsx watch src/main.ts",
     "test:coverage": "vitest run --coverage",
