@@ -79,10 +79,10 @@ describe('runInit', () => {
 
     expect(code).toBe(0);
     expect(stdoutSpy).toHaveBeenCalledWith(
-      'Initialized template "claude-code" at .devcontainers/claude-code/devcontainer.json\n'
+      'Initialized template "claude-code" at .devcontainer/claude-code/devcontainer.json\n'
     );
 
-    const written = fs.readFileSync(path.join(cwd, '.devcontainers', 'claude-code', 'devcontainer.json'), 'utf8');
+    const written = fs.readFileSync(path.join(cwd, '.devcontainer', 'claude-code', 'devcontainer.json'), 'utf8');
     expect(written).toBe(JSON.stringify(validTemplate, null, 2) + '\n');
   });
 
@@ -100,7 +100,7 @@ describe('runInit', () => {
   it('file-exists-without-force: exits 1 with correct error message', async () => {
     const cwd = makeTmpDir();
     // Pre-create the file
-    const dir = path.join(cwd, '.devcontainers', 'claude-code');
+    const dir = path.join(cwd, '.devcontainer', 'claude-code');
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'devcontainer.json'), '{}', 'utf8');
 
@@ -111,14 +111,14 @@ describe('runInit', () => {
 
     expect(code).toBe(1);
     expect(stderrSpy).toHaveBeenCalledWith(
-      'error: .devcontainers/claude-code/devcontainer.json already exists. Use --force to overwrite.\n'
+      'error: .devcontainer/claude-code/devcontainer.json already exists. Use --force to overwrite.\n'
     );
   });
 
   it('file-exists-with-force: overwrites and exits 0', async () => {
     const cwd = makeTmpDir();
     // Pre-create the file with old content
-    const dir = path.join(cwd, '.devcontainers', 'claude-code');
+    const dir = path.join(cwd, '.devcontainer', 'claude-code');
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'devcontainer.json'), '{"old": true}', 'utf8');
 
@@ -129,7 +129,7 @@ describe('runInit', () => {
 
     expect(code).toBe(0);
     expect(stdoutSpy).toHaveBeenCalledWith(
-      'Initialized template "claude-code" at .devcontainers/claude-code/devcontainer.json\n'
+      'Initialized template "claude-code" at .devcontainer/claude-code/devcontainer.json\n'
     );
     const written = fs.readFileSync(path.join(dir, 'devcontainer.json'), 'utf8');
     expect(written).toBe(JSON.stringify(validTemplate, null, 2) + '\n');

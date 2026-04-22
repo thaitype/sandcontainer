@@ -25,7 +25,7 @@ describe('runList', () => {
     stdoutSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
   }
 
-  it('missing .devcontainers/: prints No templates found.', () => {
+  it('missing .devcontainer/: prints No templates found.', () => {
     const cwd = makeTmpDir();
     spyIO();
 
@@ -35,9 +35,9 @@ describe('runList', () => {
     expect(stdoutSpy).toHaveBeenCalledWith('No templates found.\n');
   });
 
-  it('empty .devcontainers/: prints No templates found.', () => {
+  it('empty .devcontainer/: prints No templates found.', () => {
     const cwd = makeTmpDir();
-    fs.mkdirSync(path.join(cwd, '.devcontainers'));
+    fs.mkdirSync(path.join(cwd, '.devcontainer'));
     spyIO();
 
     const code = runList({ cwd });
@@ -48,7 +48,7 @@ describe('runList', () => {
 
   it('directory without devcontainer.json is excluded', () => {
     const cwd = makeTmpDir();
-    const dcDir = path.join(cwd, '.devcontainers');
+    const dcDir = path.join(cwd, '.devcontainer');
     fs.mkdirSync(path.join(dcDir, 'no-json'), { recursive: true });
     spyIO();
 
@@ -60,7 +60,7 @@ describe('runList', () => {
 
   it('single template with devcontainer.json is listed', () => {
     const cwd = makeTmpDir();
-    const dcDir = path.join(cwd, '.devcontainers');
+    const dcDir = path.join(cwd, '.devcontainer');
     fs.mkdirSync(path.join(dcDir, 'claude-code'), { recursive: true });
     fs.writeFileSync(path.join(dcDir, 'claude-code', 'devcontainer.json'), '{}', 'utf8');
     spyIO();
@@ -73,7 +73,7 @@ describe('runList', () => {
 
   it('mixed dirs: only those with devcontainer.json appear', () => {
     const cwd = makeTmpDir();
-    const dcDir = path.join(cwd, '.devcontainers');
+    const dcDir = path.join(cwd, '.devcontainer');
 
     // claude-code: has devcontainer.json
     fs.mkdirSync(path.join(dcDir, 'claude-code'), { recursive: true });
@@ -100,7 +100,7 @@ describe('runList', () => {
 
   it('sort order is lexicographic', () => {
     const cwd = makeTmpDir();
-    const dcDir = path.join(cwd, '.devcontainers');
+    const dcDir = path.join(cwd, '.devcontainer');
 
     // Create in reverse alphabetical order
     for (const id of ['zebra', 'apple', 'mango']) {

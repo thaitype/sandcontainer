@@ -22,7 +22,7 @@ describe('runExec', () => {
   }
 
   function makeInitializedTemplate(cwd: string, id: string) {
-    const dir = path.join(cwd, '.devcontainers', id);
+    const dir = path.join(cwd, '.devcontainer', id);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'devcontainer.json'), '{}', 'utf8');
     return dir;
@@ -46,8 +46,10 @@ describe('runExec', () => {
     expect(args[0]).toBe('@devcontainers/cli');
     expect(args[1]).toBe('exec');
     expect(args[2]).toBe('--workspace-folder');
-    expect(args[3]).toBe(path.resolve(cwd, '.devcontainers', 'claude-code'));
-    expect(args[4]).toBe('bash');
+    expect(args[3]).toBe(path.resolve(cwd));
+    expect(args[4]).toBe('--config');
+    expect(args[5]).toBe(path.resolve(cwd, '.devcontainer', 'claude-code', 'devcontainer.json'));
+    expect(args[6]).toBe('bash');
     expect(opts).toMatchObject({ stdio: 'inherit' });
   });
 
@@ -67,9 +69,9 @@ describe('runExec', () => {
     const [, args] = execaImpl.mock.calls[0] as [string, string[]];
     expect(args).toContain('claude');
     expect(args).toContain('--dangerously-skip-permissions');
-    // Order: workspace-folder is before the forwarded args
-    const wsIdx = args.indexOf('--workspace-folder');
-    const tail = args.slice(wsIdx + 2);
+    // Order: --config is before the forwarded args
+    const configIdx = args.indexOf('--config');
+    const tail = args.slice(configIdx + 2);
     expect(tail).toEqual(['claude', '--dangerously-skip-permissions']);
   });
 
@@ -87,8 +89,8 @@ describe('runExec', () => {
     });
 
     const [, args] = execaImpl.mock.calls[0] as [string, string[]];
-    const wsIdx = args.indexOf('--workspace-folder');
-    const tail = args.slice(wsIdx + 2);
+    const configIdx = args.indexOf('--config');
+    const tail = args.slice(configIdx + 2);
     expect(tail).toEqual(['--remote-env', 'FOO=bar', 'claude', '--dangerously-skip-permissions']);
   });
 

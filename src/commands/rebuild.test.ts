@@ -22,7 +22,7 @@ describe('runRebuild', () => {
   }
 
   function makeInitializedTemplate(cwd: string, id: string) {
-    const dir = path.join(cwd, '.devcontainers', id);
+    const dir = path.join(cwd, '.devcontainer', id);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'devcontainer.json'), '{}', 'utf8');
     return dir;
@@ -46,8 +46,10 @@ describe('runRebuild', () => {
     expect(args[0]).toBe('@devcontainers/cli');
     expect(args[1]).toBe('up');
     expect(args[2]).toBe('--workspace-folder');
-    expect(args[3]).toBe(path.resolve(cwd, '.devcontainers', 'claude-code'));
-    expect(args[4]).toBe('--remove-existing-container');
+    expect(args[3]).toBe(path.resolve(cwd));
+    expect(args[4]).toBe('--config');
+    expect(args[5]).toBe(path.resolve(cwd, '.devcontainer', 'claude-code', 'devcontainer.json'));
+    expect(args[6]).toBe('--remove-existing-container');
     expect(opts).toMatchObject({ stdio: 'inherit' });
   });
 

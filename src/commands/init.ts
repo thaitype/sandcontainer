@@ -35,11 +35,11 @@ export async function runInit(opts: InitOptions): Promise<number> {
   }
 
   // Step 3: Pre-check target file
-  const targetDir = path.resolve(cwd, '.devcontainers', id);
+  const targetDir = path.resolve(cwd, '.devcontainer', id);
   const targetFile = path.join(targetDir, 'devcontainer.json');
 
   if (fs.existsSync(targetFile) && !force) {
-    process.stderr.write(`error: .devcontainers/${id}/devcontainer.json already exists. Use --force to overwrite.\n`);
+    process.stderr.write(`error: .devcontainer/${id}/devcontainer.json already exists. Use --force to overwrite.\n`);
     return 1;
   }
 
@@ -67,7 +67,7 @@ export async function runInit(opts: InitOptions): Promise<number> {
     return 1;
   }
 
-  // Step 5: mkdir -p .devcontainers/<id>
+  // Step 5: mkdir -p .devcontainer/<id>
   fs.mkdirSync(targetDir, { recursive: true });
 
   // Step 6: Write devcontainer.json
@@ -75,14 +75,14 @@ export async function runInit(opts: InitOptions): Promise<number> {
   fs.writeFileSync(targetFile, content, 'utf8');
 
   // Step 7: Print confirmation
-  process.stdout.write(`Initialized template "${id}" at .devcontainers/${id}/devcontainer.json\n`);
+  process.stdout.write(`Initialized template "${id}" at .devcontainer/${id}/devcontainer.json\n`);
   return 0;
 }
 
 export const initCommand = defineCommand({
   meta: {
     name: 'init',
-    description: 'Download a devcontainer template into .devcontainers/<id>/',
+    description: 'Download a devcontainer template into .devcontainer/<id>/',
   },
   args: {
     id: {

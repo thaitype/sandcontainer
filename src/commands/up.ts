@@ -14,20 +14,20 @@ export interface UpOptions {
 
 /**
  * Pure handler for `up <id> [...args]`.
- * Spawns: npx @devcontainers/cli up --workspace-folder <abs> ...forwardedArgs
+ * Spawns: npx @devcontainers/cli up --workspace-folder <repoRoot> --config <configPath> ...forwardedArgs
  */
 export async function runUp(opts: UpOptions): Promise<void> {
   const { id, forwardedArgs, cwd = process.cwd(), execaImpl = defaultExeca } = opts;
 
-  const workspaceFolder = path.resolve(cwd, '.devcontainers', id);
-  const dcJson = path.join(workspaceFolder, 'devcontainer.json');
+  const repoRoot = path.resolve(cwd);
+  const configPath = path.resolve(repoRoot, '.devcontainer', id, 'devcontainer.json');
 
-  if (!fs.existsSync(dcJson)) {
+  if (!fs.existsSync(configPath)) {
     process.stderr.write(`error: Template "${id}" is not initialized. Run: sandcontainer init ${id}\n`);
     process.exit(1);
   }
 
-  const argv = ['@devcontainers/cli', 'up', '--workspace-folder', workspaceFolder, ...forwardedArgs];
+  const argv = ['@devcontainers/cli', 'up', '--workspace-folder', repoRoot, '--config', configPath, ...forwardedArgs];
 
   try {
     await execaImpl('npx', argv, { stdio: 'inherit' });

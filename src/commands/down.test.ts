@@ -22,7 +22,7 @@ describe('runDown', () => {
   }
 
   function makeInitializedTemplate(cwd: string, id: string) {
-    const dir = path.join(cwd, '.devcontainers', id);
+    const dir = path.join(cwd, '.devcontainer', id);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'devcontainer.json'), '{}', 'utf8');
     return dir;
@@ -47,10 +47,14 @@ describe('runDown', () => {
     expect(cmd).toBe('docker');
     expect(args[0]).toBe('ps');
     expect(args).toContain('-q');
-    const filterIdx = args.indexOf('--filter');
-    expect(filterIdx).toBeGreaterThan(-1);
-    const expectedPath = path.resolve(cwd, '.devcontainers', 'claude-code');
-    expect(args[filterIdx + 1]).toBe(`label=devcontainer.local_folder=${expectedPath}`);
+    const repoRoot = path.resolve(cwd);
+    const configPath = path.resolve(cwd, '.devcontainer', 'claude-code', 'devcontainer.json');
+    const firstFilterIdx = args.indexOf('--filter');
+    expect(firstFilterIdx).toBeGreaterThan(-1);
+    expect(args[firstFilterIdx + 1]).toBe(`label=devcontainer.local_folder=${repoRoot}`);
+    const secondFilterIdx = args.indexOf('--filter', firstFilterIdx + 1);
+    expect(secondFilterIdx).toBeGreaterThan(-1);
+    expect(args[secondFilterIdx + 1]).toBe(`label=devcontainer.config_file=${configPath}`);
   });
 
   it('calls docker stop with container id when found', async () => {

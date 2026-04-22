@@ -14,20 +14,20 @@ export interface ExecOptions {
 
 /**
  * Pure handler for `exec <id> [...args]`.
- * Spawns: npx @devcontainers/cli exec --workspace-folder <abs> ...forwardedArgs
+ * Spawns: npx @devcontainers/cli exec --workspace-folder <repoRoot> --config <configPath> ...forwardedArgs
  */
 export async function runExec(opts: ExecOptions): Promise<void> {
   const { id, forwardedArgs, cwd = process.cwd(), execaImpl = defaultExeca } = opts;
 
-  const workspaceFolder = path.resolve(cwd, '.devcontainers', id);
-  const dcJson = path.join(workspaceFolder, 'devcontainer.json');
+  const repoRoot = path.resolve(cwd);
+  const configPath = path.resolve(repoRoot, '.devcontainer', id, 'devcontainer.json');
 
-  if (!fs.existsSync(dcJson)) {
+  if (!fs.existsSync(configPath)) {
     process.stderr.write(`error: Template "${id}" is not initialized. Run: sandcontainer init ${id}\n`);
     process.exit(1);
   }
 
-  const argv = ['@devcontainers/cli', 'exec', '--workspace-folder', workspaceFolder, ...forwardedArgs];
+  const argv = ['@devcontainers/cli', 'exec', '--workspace-folder', repoRoot, '--config', configPath, ...forwardedArgs];
 
   try {
     await execaImpl('npx', argv, { stdio: 'inherit' });

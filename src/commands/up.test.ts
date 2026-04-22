@@ -22,7 +22,7 @@ describe('runUp', () => {
   }
 
   function makeInitializedTemplate(cwd: string, id: string) {
-    const dir = path.join(cwd, '.devcontainers', id);
+    const dir = path.join(cwd, '.devcontainer', id);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'devcontainer.json'), '{}', 'utf8');
     return dir;
@@ -46,8 +46,10 @@ describe('runUp', () => {
     expect(args[0]).toBe('@devcontainers/cli');
     expect(args[1]).toBe('up');
     expect(args[2]).toBe('--workspace-folder');
-    expect(args[3]).toBe(path.resolve(cwd, '.devcontainers', 'claude-code'));
-    expect(args.length).toBe(4);
+    expect(args[3]).toBe(path.resolve(cwd));
+    expect(args[4]).toBe('--config');
+    expect(args[5]).toBe(path.resolve(cwd, '.devcontainer', 'claude-code', 'devcontainer.json'));
+    expect(args.length).toBe(6);
     expect(opts).toMatchObject({ stdio: 'inherit' });
   });
 
@@ -65,8 +67,8 @@ describe('runUp', () => {
     });
 
     const [, args] = execaImpl.mock.calls[0] as [string, string[]];
-    const wsIdx = args.indexOf('--workspace-folder');
-    const tail = args.slice(wsIdx + 2);
+    const configIdx = args.indexOf('--config');
+    const tail = args.slice(configIdx + 2);
     expect(tail).toEqual(['--build-no-cache', '--no-cache']);
   });
 
