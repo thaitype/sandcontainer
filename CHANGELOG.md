@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.3.0](https://github.com/thaitype/agent-devcontainers/compare/v0.1.0...v0.3.0) (2026-04-22)
+
+### ⚠ BREAKING CHANGES
+
+* The claude-code template now uses devcontainer-features
+with the Microsoft javascript-node:22 base image instead of the slim
+pre-built GHCR image. For the previous behavior, use `scx init claude-code-slim`.
+The GHCR image ghcr.io/thaitype/sandcontainer-claude-code:latest is no
+longer rebuilt; use ghcr.io/thaitype/sandcontainer-claude-code-slim:latest.
+
+* docs: record Milestone 4 goal, contract, and completed grill notes
+
+Captures the planning artifacts for the claude-code template split:
+the milestone goal (rename + two-template strategy), the parity contract
+locking which devcontainer.json fields must stay identical across the two
+templates, and the completed grill-me session notes.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+
+* docs: add PR description for splitting `claude-code` into features-based and slim templates
+* use .devcontainer/<id>/ layout and mount repo root as workspace (#1)
+
+* Split `claude-code` into features-based and slim templates (Milestone 4) (#2) ([912f9ec](https://github.com/thaitype/agent-devcontainers/commit/912f9ecdc837df5e6452a199ebbf9bdce3b3d5c8)), closes [#2](https://github.com/thaitype/agent-devcontainers/issues/2)
+
+### Bug Fixes
+
+* use .devcontainer/<id>/ layout and mount repo root as workspace ([#1](https://github.com/thaitype/agent-devcontainers/issues/1)) ([d85ea5d](https://github.com/thaitype/agent-devcontainers/commit/d85ea5d191bfb0c07ba9b2588e3b08f54b8e1b55))
+
 ## [0.3.0] (2026-04-22)
 
 ### ⚠ BREAKING CHANGES
