@@ -4,10 +4,18 @@
     {
       "id": "claude-code",
       "name": "Claude Code",
-      "description": "Devcontainer for running Claude Code in an isolated sandbox.",
-      "tags": ["claude", "ai", "sandbox"],
+      "description": "Devcontainer for Claude Code using the standard Microsoft JavaScript/Node base image and devcontainer-features. Larger first build (~2.3GB); no pre-built image on GHCR.",
+      "tags": ["claude", "ai", "sandbox", "features"],
       "kind": "devcontainer",
       "url": "https://raw.githubusercontent.com/thaitype/sandcontainer/main/templates/claude-code/devcontainer.json"
+    },
+    {
+      "id": "claude-code-slim",
+      "name": "Claude Code (Slim)",
+      "description": "Devcontainer for Claude Code with a hand-picked node:22-slim base and pre-built GHCR image (~800MB). Faster first run; no devcontainer-features.",
+      "tags": ["claude", "ai", "sandbox", "slim", "prebuilt"],
+      "kind": "devcontainer",
+      "url": "https://raw.githubusercontent.com/thaitype/sandcontainer/main/templates/claude-code-slim/devcontainer.json"
     }
   ]
 }
