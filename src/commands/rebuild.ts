@@ -14,15 +14,15 @@ export interface RebuildOptions {
 
 /**
  * Pure handler for `rebuild <id> [...args]`.
- * Spawns: npx @devcontainers/cli up --workspace-folder <abs> --remove-existing-container ...forwardedArgs
+ * Spawns: npx @devcontainers/cli up --workspace-folder <repoRoot> --config <configPath> --remove-existing-container ...forwardedArgs
  */
 export async function runRebuild(opts: RebuildOptions): Promise<void> {
   const { id, forwardedArgs, cwd = process.cwd(), execaImpl = defaultExeca } = opts;
 
-  const workspaceFolder = path.resolve(cwd, '.devcontainers', id);
-  const dcJson = path.join(workspaceFolder, 'devcontainer.json');
+  const repoRoot = path.resolve(cwd);
+  const configPath = path.resolve(repoRoot, '.devcontainer', id, 'devcontainer.json');
 
-  if (!fs.existsSync(dcJson)) {
+  if (!fs.existsSync(configPath)) {
     process.stderr.write(`error: Template "${id}" is not initialized. Run: sandcontainer init ${id}\n`);
     process.exit(1);
   }
@@ -31,7 +31,9 @@ export async function runRebuild(opts: RebuildOptions): Promise<void> {
     '@devcontainers/cli',
     'up',
     '--workspace-folder',
-    workspaceFolder,
+    repoRoot,
+    '--config',
+    configPath,
     '--remove-existing-container',
     ...forwardedArgs,
   ];

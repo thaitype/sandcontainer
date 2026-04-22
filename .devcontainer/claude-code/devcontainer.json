@@ -1,12 +1,15 @@
 {
-  "name": "Claude Code Sandbox (Slim)",
+  "name": "Claude Code Sandbox",
   "image": "ghcr.io/thaitype/sandcontainer-claude-code:latest",
   "remoteUser": "node",
+  "initializeCommand": "mkdir -p ${localEnv:HOME}/.claude && touch ${localEnv:HOME}/.claude.json",
   "containerEnv": {
     "CLAUDE_CODE_OAUTH_TOKEN": "${localEnv:CLAUDE_CODE_OAUTH_TOKEN}"
   },
   "mounts": [
     "source=${localEnv:HOME}/.claude,target=/home/node/.claude,type=bind",
+    "source=${localEnv:HOME}/.claude.json,target=/home/node/.claude.json,type=bind",
     "source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
-  ]
+  ],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
 }

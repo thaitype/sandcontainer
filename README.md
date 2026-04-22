@@ -1,6 +1,6 @@
 # sandcontainer
 
-Catalog-driven CLI for distributing devcontainer configurations. Resolves template IDs from a remote catalog, downloads `devcontainer.json` into `.devcontainers/<id>/`, and forwards lifecycle commands to `@devcontainers/cli`.
+Catalog-driven CLI for distributing devcontainer configurations. Resolves template IDs from a remote catalog, downloads `devcontainer.json` into `.devcontainer/<id>/`, and forwards lifecycle commands to `@devcontainers/cli`.
 
 ## Requirements
 
@@ -42,17 +42,17 @@ scx exec claude-code claude
 
 ### `scx init <id> [--force]`
 
-Download a template from the catalog into `.devcontainers/<id>/devcontainer.json`.
+Download a template from the catalog into `.devcontainer/<id>/devcontainer.json`.
 
 ```bash
 $ scx init claude-code
-Initialized template "claude-code" at .devcontainers/claude-code/devcontainer.json
+Initialized template "claude-code" at .devcontainer/claude-code/devcontainer.json
 
 $ scx init claude-code
-error: .devcontainers/claude-code/devcontainer.json already exists. Use --force to overwrite.
+error: .devcontainer/claude-code/devcontainer.json already exists. Use --force to overwrite.
 
 $ scx init claude-code --force
-Initialized template "claude-code" at .devcontainers/claude-code/devcontainer.json
+Initialized template "claude-code" at .devcontainer/claude-code/devcontainer.json
 
 $ scx init nonexistent
 error: Template "nonexistent" not found in catalog.
@@ -67,7 +67,7 @@ $ scx list
 claude-code
 copilot
 
-$ scx list         # in a project without .devcontainers/
+$ scx list         # in a project without .devcontainer/
 No templates found.
 ```
 
@@ -77,11 +77,11 @@ Start the devcontainer. All args after `<id>` are forwarded to `@devcontainers/c
 
 ```bash
 $ scx up claude-code
-# → devcontainer up --workspace-folder .devcontainers/claude-code
+# → devcontainer up --workspace-folder . --config .devcontainer/claude-code/devcontainer.json
 # (streams @devcontainers/cli output)
 
 $ scx up claude-code --build-no-cache
-# → devcontainer up --workspace-folder .devcontainers/claude-code --build-no-cache
+# → devcontainer up --workspace-folder . --config .devcontainer/claude-code/devcontainer.json --build-no-cache
 ```
 
 ### `scx exec <id> [...args]`
@@ -90,11 +90,11 @@ Run a command inside the container.
 
 ```bash
 $ scx exec claude-code bash
-# → devcontainer exec --workspace-folder .devcontainers/claude-code bash
+# → devcontainer exec --workspace-folder . --config .devcontainer/claude-code/devcontainer.json bash
 # (interactive shell inside the container)
 
 $ scx exec claude-code claude --dangerously-skip-permissions
-# → devcontainer exec --workspace-folder .devcontainers/claude-code claude --dangerously-skip-permissions
+# → devcontainer exec --workspace-folder . --config .devcontainer/claude-code/devcontainer.json claude --dangerously-skip-permissions
 # (flags after <id> are NOT intercepted by sandcontainer)
 
 $ scx exec claude-code bash -lc "pnpm install && pnpm test"
@@ -106,7 +106,7 @@ Rebuild the container from scratch.
 
 ```bash
 $ scx rebuild claude-code
-# → devcontainer up --workspace-folder .devcontainers/claude-code --remove-existing-container
+# → devcontainer up --workspace-folder . --config .devcontainer/claude-code/devcontainer.json --remove-existing-container
 ```
 
 ### `scx down <id>`
@@ -115,7 +115,7 @@ Stop the running container.
 
 ```bash
 $ scx down claude-code
-# → docker stop <container with label devcontainer.local_folder=<absolute path>>
+# → docker stop <container with labels devcontainer.local_folder=<repo> AND devcontainer.config_file=<config>>
 ```
 
 ### Using the long name or npx
@@ -154,7 +154,7 @@ After running `scx init`, your project will look like:
 
 ```
 <your-project>/
-  .devcontainers/
+  .devcontainer/
     claude-code/
       devcontainer.json
 ```

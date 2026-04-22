@@ -14,27 +14,35 @@ export interface DownOptions {
 
 /**
  * Pure handler for `down <id>`.
- * Finds the container via docker ps -q --filter label=devcontainer.local_folder=<abs>
+ * Finds the container via docker ps -q --filter label=devcontainer.local_folder=<repoRoot>
+ *   --filter label=devcontainer.config_file=<configPath>
  * then docker stop <containerId>.
  * If no container found → silent exit (returns normally).
  */
 export async function runDown(opts: DownOptions): Promise<void> {
   const { id, cwd = process.cwd(), execaImpl = defaultExeca } = opts;
 
-  const workspaceFolder = path.resolve(cwd, '.devcontainers', id);
-  const dcJson = path.join(workspaceFolder, 'devcontainer.json');
+  const repoRoot = path.resolve(cwd);
+  const configPath = path.resolve(repoRoot, '.devcontainer', id, 'devcontainer.json');
 
-  if (!fs.existsSync(dcJson)) {
+  if (!fs.existsSync(configPath)) {
     process.stderr.write(`error: Template "${id}" is not initialized. Run: sandcontainer init ${id}\n`);
     process.exit(1);
   }
 
-  // Find container by label
+  // Find container by dual label filter
   let containerId = '';
   try {
     const result = await execaImpl(
       'docker',
-      ['ps', '-q', '--filter', `label=devcontainer.local_folder=${workspaceFolder}`],
+      [
+        'ps',
+        '-q',
+        '--filter',
+        `label=devcontainer.local_folder=${repoRoot}`,
+        '--filter',
+        `label=devcontainer.config_file=${configPath}`,
+      ],
       { stdio: ['inherit', 'pipe', 'inherit'] }
     );
     containerId = (result.stdout ?? '').trim();

@@ -8,13 +8,13 @@ export interface ListOptions {
 
 /**
  * Pure handler for `list`.
- * Scans .devcontainers/ immediate subdirectories for devcontainer.json.
+ * Scans .devcontainer/ immediate subdirectories for devcontainer.json.
  * Returns exit code (always 0 per contract).
  */
 export function runList(opts: ListOptions = {}): number {
   const { cwd = process.cwd() } = opts;
 
-  const devcontainersDir = path.resolve(cwd, '.devcontainers');
+  const devcontainersDir = path.resolve(cwd, '.devcontainer');
 
   // Step 2: If directory does not exist → no templates
   if (!fs.existsSync(devcontainersDir)) {
