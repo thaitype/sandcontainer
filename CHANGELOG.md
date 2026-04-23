@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0] - 2026-04-23
+
+### Features
+
+- Add `copilot` and `copilot-slim` templates for GitHub Copilot CLI.
+  - `copilot` uses the Microsoft JS/Node base image with the `copilot-cli` and `github-cli` devcontainer-features.
+  - `copilot-slim` uses a hand-picked `node:22-slim` base with `gh` CLI and `@github/copilot` pre-installed; published to `ghcr.io/thaitype/sandcontainer-copilot-slim:latest`.
+  - Both templates share the same `name`, `remoteUser`, `containerEnv`, and mounts per the template-parity contract.
+  - Users must set `GH_TOKEN` in the host shell before invoking (e.g. `GH_TOKEN=$(gh auth token) scx up copilot`).
+
 ## [0.3.0](https://github.com/thaitype/agent-devcontainers/compare/v0.1.0...v0.3.0) (2026-04-22)
 
 ### ⚠ BREAKING CHANGES
