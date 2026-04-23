@@ -1,7 +1,8 @@
 # PR: Add `copilot` and `copilot-slim` templates (Milestone 5)
 
 Targets: `main`
-Commits: `473b43f` (impl + planning docs)
+Branch: `main.m5`
+Commits: `473b43f` (impl), `a944fb5` (planning docs)
 Version: `0.4.0` on release (minor, non-breaking; `feat:` marker)
 
 ---
@@ -36,12 +37,13 @@ Purely additive. Existing `claude-code` / `claude-code-slim` users are unaffecte
 **Release**
 - `package.json` — version bumped `0.3.0` → `0.4.0`.
 
-**Planning artifacts (non-shipping, under `.chief/milestone-5/`)**
+**Planning artifacts (committed under `.chief/milestone-5/` in `a944fb5`)**
 - `_goal/goal.md` — scope, non-goals, parity table, expected-invocation section.
 - `_contract/template-parity.md` — enforcement contract for copilot/copilot-slim.
 - `_plan/_todo.md` — four tasks (11–14).
 - `_report/deferred-host-env-injection.md` — rationale for NOT building auto-injection of `GH_TOKEN` in this milestone (see below).
 - `_report/rfc-0001-sandboxed-credential-storage.md` — separate RFC draft, referenced from the deferral report.
+- `_report/pr-description.md` — this file.
 
 ## Parity contract
 
