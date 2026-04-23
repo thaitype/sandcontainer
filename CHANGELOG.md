@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.0](https://github.com/thaitype/agent-devcontainers/compare/v0.3.0...v0.4.0) (2026-04-23)
+
+### Features
+
+* add devcontainer configuration for Claude Code Sandbox ([e62b4d3](https://github.com/thaitype/agent-devcontainers/commit/e62b4d3fb16b6bcd4f324bec90b9243e336d29bd))
+
+### Bug Fixes
+
+* revert version number to 0.3.0 in package.json ([#4](https://github.com/thaitype/agent-devcontainers/issues/4)) ([ee55c9d](https://github.com/thaitype/agent-devcontainers/commit/ee55c9db43053f48c4d102b75772396add8b7dcb))
+
+### Documentation
+
+* note optional pre-build for the features-based claude-code template ([337d6ee](https://github.com/thaitype/agent-devcontainers/commit/337d6ee6e7110b5c883d8cb7e58c3269c31a876f))
+* update README to highlight early alpha status and request feedback ([a94c2b7](https://github.com/thaitype/agent-devcontainers/commit/a94c2b7c27c809727a1ced4e5eeccd1cb4cb067d))
+
 ## [0.4.0] - 2026-04-23
 
 ### Features
