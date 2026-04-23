@@ -2,6 +2,8 @@
 
 Catalog-driven CLI for distributing devcontainer configurations. Resolves template IDs from a remote catalog, downloads `devcontainer.json` into `.devcontainer/<id>/`, and forwards lifecycle commands to `@devcontainers/cli`.
 
+> ⚠️ Experiment: early alpha, expect breaking changes. Feedback welcome!
+
 ## Requirements
 
 - Node >= 20
