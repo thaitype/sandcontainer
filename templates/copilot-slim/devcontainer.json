@@ -1,0 +1,12 @@
+{
+  "name": "Copilot CLI Sandbox",
+  "image": "ghcr.io/thaitype/sandcontainer-copilot-slim:latest",
+  "remoteUser": "node",
+  "containerEnv": {
+    "GH_TOKEN": "${localEnv:GH_TOKEN}"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.copilot,target=/home/node/.copilot,type=bind",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
+  ]
+}

@@ -16,6 +16,22 @@
       "tags": ["claude", "ai", "sandbox", "slim", "prebuilt"],
       "kind": "devcontainer",
       "url": "https://raw.githubusercontent.com/thaitype/sandcontainer/main/templates/claude-code-slim/devcontainer.json"
+    },
+    {
+      "id": "copilot",
+      "name": "Copilot CLI",
+      "description": "Devcontainer for GitHub Copilot CLI using the standard Microsoft JavaScript/Node base image and devcontainer-features. Larger first build (~2.3GB); no pre-built image on GHCR.",
+      "tags": ["copilot", "github", "sandbox", "features"],
+      "kind": "devcontainer",
+      "url": "https://raw.githubusercontent.com/thaitype/sandcontainer/main/templates/copilot/devcontainer.json"
+    },
+    {
+      "id": "copilot-slim",
+      "name": "Copilot CLI (Slim)",
+      "description": "Devcontainer for GitHub Copilot CLI with a hand-picked node:22-slim base and pre-built GHCR image (~800MB). Faster first run; no devcontainer-features.",
+      "tags": ["copilot", "github", "sandbox", "slim", "prebuilt"],
+      "kind": "devcontainer",
+      "url": "https://raw.githubusercontent.com/thaitype/sandcontainer/main/templates/copilot-slim/devcontainer.json"
     }
   ]
 }

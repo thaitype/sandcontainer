@@ -1,6 +1,6 @@
 {
   "name": "sandcontainer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Catalog-driven CLI for distributing devcontainer configurations",
   "main": "./dist/main.cjs",
   "module": "./dist/main.js",
