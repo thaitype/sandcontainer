@@ -160,20 +160,26 @@ Both templates produce an identical in-container experience: the same `name`, `r
 - **`claude-code`** (features-based): starts from `mcr.microsoft.com/devcontainers/javascript-node:22` and installs Claude Code via `devcontainer-features`. No pre-built image. First build downloads and installs features (~2.3GB). Standard base image — good if you want to layer in additional features.
 - **`claude-code-slim`** (Dockerfile-based): starts from a pre-built GHCR image (`ghcr.io/thaitype/sandcontainer-claude-code-slim:latest`) based on `node:22-slim` (~800MB). Faster first pull; no features step.
 
+> **Note — `CLAUDE_CODE_OAUTH_TOKEN` is baked in at container creation.** Most users don't need this: auth is handled via the bind-mounted `~/.claude` directory. If you do use the `CLAUDE_CODE_OAUTH_TOKEN` env var, devcontainer's `containerEnv` is applied once when the container is created, not on every `exec`. Set it when you create or rebuild the container:
+>
+> ```bash
+> CLAUDE_CODE_OAUTH_TOKEN=... scx rebuild claude-code
+> ```
+>
+> The same applies to `claude-code-slim`. To refresh the token, rebuild again.
+
 The `copilot` and `copilot-slim` templates follow the same split for GitHub Copilot CLI. Both templates share the same `name`, `remoteUser`, `containerEnv`, and bind mounts (`~/.copilot` and `~/.gitconfig`); only the build path differs:
 
 - **`copilot`** (features-based): starts from `mcr.microsoft.com/devcontainers/javascript-node:22` and installs Copilot CLI via the `copilot-cli` and `github-cli` devcontainer-features. No pre-built image. First build downloads and installs features (~2.3GB).
 - **`copilot-slim`** (Dockerfile-based): starts from a pre-built GHCR image (`ghcr.io/thaitype/sandcontainer-copilot-slim:latest`) based on `node:22-slim` (~800MB). Faster first pull; no features step.
 
-> **Note — `GH_TOKEN` required at invocation time.** Copilot CLI authenticates via a GitHub token. Set `GH_TOKEN` in your host shell on every `scx` call:
+> **Note — `GH_TOKEN` is baked in at container creation.** devcontainer's `containerEnv` is applied once when the container is created, not on every `exec`. Set `GH_TOKEN` when you create or rebuild the container:
 >
 > ```bash
-> GH_TOKEN=$(gh auth token) scx up copilot
-> GH_TOKEN=$(gh auth token) scx exec copilot copilot
 > GH_TOKEN=$(gh auth token) scx rebuild copilot
 > ```
 >
-> The same pattern applies to `copilot-slim` (replace `copilot` with `copilot-slim`).
+> The same applies to `copilot-slim` (replace `copilot` with `copilot-slim`). To refresh an expired token, rebuild again.
 
 ### Pre-building the features-based template (optional)
 
